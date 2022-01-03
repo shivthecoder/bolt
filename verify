@@ -1,0 +1,228 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Verify</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section" style="font-family: cursive;">Verify Your Product Online Instantly</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-7">
+					<div class="login-wrap p-4 p-md-5">
+					<div id="erroralert" class="alert" role="alert"></div>
+    		      	<div class="icon d-flex align-items-center justify-content-center">
+    		      		
+    		      		<img src="images/trueforma_logo.png" style="width:250px;">
+    		      		<!--<span class="fa fa-check"></span>-->
+    		      	</div>
+    		      	<h3 class="text-center mb-4">Step 1 : Scratch the Holographic strip on the label for PIN</br>
+                                                 Step 2 : Enter the Scratch PIN</h3>
+                 <hr>
+				 <form action="" class="login-form" method="POST">
+		      		<div class="form-group">
+		      			<input type="text" class="form-control rounded-left" id="email" name="email" placeholder="Email" autocomplete="off">
+		      		</div>
+	                <div class="form-group d-flex" style="margin-bottom: -20px;">
+	                    <input type="text" class="form-control rounded-left" id="phonenumber" name="phonenumber" placeholder="Enter 10 digit mobile number" onkeypress="return isNumberKey(event)" minlength="10" maxlength="10" autocomplete="off">
+	                </div>
+	                <a id="checkmsg" style="font-weight: 600;font-size: 12px;text-align: center;display:none;">(Please check your email (check spam also) or mobile number for OTP)</a>
+	                <a href="index.php" id="change" style="font-weight: 600;display:none;">Change</a>
+	                <p class="form-group d-flex" id="inputvalue1" style="color: #333;font-weight: 600;margin-bottom: 0px;"></p>
+	                <p class="form-group d-flex" id="inputvalue2" style="color: #333;font-weight: 600;"></p>
+	                <div class="form-group d-flex" id="otpsection">
+	                    <input type="text" class="form-control rounded-left" id="otp" name="otp" placeholder="Enter OTP" minlength="4" maxlength="4" autocomplete="off" onkeypress="return isNumberKey(event)" style="display:none;">
+	                    <input required type="text" class="form-control rounded-left" id="uic" name="uic" placeholder="Enter Scratch Code" minlength="8" maxlength="9" autocomplete="off" style="text-transform: uppercase;display:none;">
+	                    <input type="hidden" id="form_email" name="form_email" value=""/>
+	                    <input type="hidden" id="form_phonenumber" name="form_phonenumber" value=""/>
+	                    <input type="hidden" name="country" id="country" value=""/>
+                        <input type="hidden" name="region" id="region" value=""/>
+                        <input type="hidden" name="city" id="city" value=""/>
+                        <input type="hidden" name="zipcode" id="zipcode" value=""/>
+	                </div>
+	            
+	                <div class="w-50" id="msg" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display:none;">! Please complete the form</div>
+	                <div class="w-50" id="emailmsg" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display:none;">! Please enter valid email address</div>
+	                <div class="w-50" id="phonemsg" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display:none;">! Please enter 10 digit mobile number</div>
+				    <div class="w-50" id="otpmsg" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display:none;">! Please enter the OTP</div>
+				    <div class="w-50" id="uicmsg" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display:none;">! Please enter the UIC Code</div>
+    	            <div class="w-50" id="invalidotp" style="color: #c40000;font-size: 13px;line-height: 20px;font-weight: 600;display: none;"></div>
+    	            
+    	            <div class="form-group">
+    	            	<button type="button" class="btn btn-primary rounded submit p-3 px-5" id="continue">Generate OTP</button>
+    	            	<button type="button" class="btn btn-info rounded submit p-3 px-5" id="next" style="display:none;">Continue</button>
+    	            	<button type="button" class="btn btn-success rounded submit p-3 px-5" id="submit" style="display:none;">Verify</button>
+    	            </div>
+	          </form>
+	        </div>
+				</div>
+			</div>
+		</div>
+</section>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+function isNumberKey(evt){
+    //var e = evt || window.event;
+	var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode != 46 && charCode > 31 
+	&& (charCode < 48 || charCode > 57))
+        return false;
+        return true;
+}
+function IsEmail(email) {
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if(!regex.test(email)) {
+    return false;
+  }else{
+    return true;
+  }
+}
+function validatePhone(phonenumber) {
+    var phoneregex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+    if(!phoneregex.test(phonenumber)) {
+        return false;
+    }else{
+        return true;
+    }
+}
+
+//Fetch customer location
+$.get("https://ipinfo.io/json", function (response) {
+    $("#country").val(response.country);
+    $("#region").val(response.region);
+    $("#city").val(response.city);
+    $("#zipcode").val(response.postal);
+}, "jsonp");
+
+//generate_otp
+$(document).on("click", "#continue", function () {
+    var email = $("#email").val();
+    var phonenumber = $("#phonenumber").val();
+    if((email=='') || (phonenumber=='' )){
+        $("#msg").css("display", "block");
+        $("#emailmsg").css("display", "none");
+        $("#phonemsg").css("display", "none");
+    }else if(IsEmail(email)==false){
+        $("#emailmsg").css("display", "block");
+        $("#phonemsg").css("display", "none");
+        $("#msg").css("display", "none");
+    }else if(validatePhone(phonenumber)==false){
+        $("#phonemsg").css("display", "block");
+        $("#emailmsg").css("display", "none");
+        $("#msg").css("display", "none");
+    }
+    else{
+        $("#msg").css("display", "none");
+        $("#emailmsg").css("display", "none");
+        $("#phonemsg").css("display", "none");
+        $("#email").css("display", "none");
+        $("#phonenumber").css("display", "none");
+        $("#inputvalue1").html(email);
+        $("#inputvalue2").html(phonenumber);
+        $("#checkmsg").css("display", "block");
+        $("#change").css("display", "block");
+        $("#otp").css("display", "block");
+        $("#continue").css("display", "none");
+        $("#next").css("display", "block");
+        $.ajax({
+            type:'POST',
+            url:'ajax_otp.php',
+            data:{email: email, phonenumber: phonenumber},
+            dataType: "json",
+            success:function(msg){
+                if(msg==0){
+                   alert("ERROR!!! check your mysql connection"); 
+                }
+            }
+        });
+    }
+});
+
+//next
+$(document).on("click", "#next", function () {
+    var otp = $("#otp").val();
+    var otp_email = $("#inputvalue1").html();
+    var otp_phonenumber = $("#inputvalue2").html();
+    if((otp=='')){
+        $("#otpmsg").css("display", "block");
+    }
+    else{
+        $("#otpmsg").css("display", "none");
+        $.ajax({
+            type:'POST',
+            url:'check_otp.php',
+            data:{otp: otp, email: otp_email, phonenumber: otp_phonenumber},
+            dataType: "json",
+            success:function(otpmsg){
+               if(otpmsg==0){
+                   $("#invalidotp").css("display", "block");
+                   $("#invalidotp").html("Invalid OTP");
+                }else{
+                   $("#invalidotp").css("display", "none");
+                   $("#otp").css("display", "none");
+                   $("#next").css("display", "none");
+                   $("#form_email").val(otp_email);
+                   $("#form_phonenumber").val(otp_phonenumber);
+                   $("#uic").css("display", "block");
+                   $("#submit").css("display", "block");
+                } 
+            }
+        });
+    }
+});
+
+//submit_uic
+$(document).on("click", "#submit", function () {
+    $("#erroralert").removeClass('alert-danger');
+    $("#erroralert").removeClass('alert-info');
+    var actual_link = "https://verify.trueforma.in/";
+    var form_email = $("#form_email").val();
+    var form_phonenumber = $("#form_phonenumber").val();
+    var country = $("#country").val();
+    var region = $("#region").val();
+    var city = $("#city").val();
+    var zipcode = $("#zipcode").val();
+    var uic = $("#uic").val();
+    if((uic=='')){
+        $("#uicmsg").css("display", "block");
+    }
+    else{
+        $("#uicmsg").css("display", "none");
+        $.ajax({
+            type:'POST',
+            url:'submit_uic.php',
+            data:{actual_link: actual_link, form_email: form_email, form_phonenumber: form_phonenumber, country: country, region: region, city: city, zipcode: zipcode, uic: uic},
+            dataType: "json",
+            success:function(response){
+                $("#erroralert").html(response.errormsg + '<button type="button" class="close" id="close">x</button>');
+                $("#erroralert").addClass(response.classname);
+                $("#submit").prop('disabled', true);
+            }
+        });
+    }
+});
+
+//Reload on close button click
+$(document).on("click", "#close", function () {
+    location.reload();
+});
+</script>
+</body>
+</html>
